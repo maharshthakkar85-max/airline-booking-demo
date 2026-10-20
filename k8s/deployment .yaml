@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airline-booking
+  labels:
+    app: airline-booking
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: airline-booking
+  template:
+    metadata:
+      labels:
+        app: airline-booking
+    spec:
+      containers:
+        - name: airline-booking
+          image: YOUR_DOCKERHUB_USERNAME/airline-booking-demo:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 50m
+              memory: 32Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 5
+ 
